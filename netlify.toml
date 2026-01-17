@@ -1,0 +1,2 @@
+[build.environment]
+  SECRETS_SCAN_ENABLED = "false" # Disable secret scanning because we INTEND to use this key on the client side.
