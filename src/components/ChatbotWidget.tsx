@@ -91,7 +91,12 @@ Rules:
 
 - Maintain a calm, mature, and professional tone at all times
 `;
-const genAI = new GoogleGenerativeAI("AIzaSyCjmVDP-CNqvMG2Fdj4ENjlUtGA-vQl_Xo");
+// Use environment variable for API key
+const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
+if (!API_KEY) {
+  console.error("VITE_GEMINI_API_KEY is not set in environment variables");
+}
+const genAI = new GoogleGenerativeAI(API_KEY);
 
 const ChatbotWidget: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
