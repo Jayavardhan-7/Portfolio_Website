@@ -1,73 +1,69 @@
-# Welcome to your Lovable project
+# Portfolio Website
 
-## Project info
+A modern, interactive portfolio website built to showcase professional experience, projects, and skills with a focus on premium design and user experience. Check out the live demo [here](https://portfolio-jayav.vercel.app/) (Replace with actual URL if available).
 
-**URL**: https://lovable.dev/projects/01a8dd57-2b1c-4d28-91c9-222aa00d1a96
+## 🚀 Key Features
 
-## How can I edit this code?
+- **🤖 AI Chatbot Assistant**: An intelligent portfolio assistant powered by Google Gemini AI. It can answer questions about my background, skills, and projects in a natural, conversational manner.
+- **✨ Interactive Experience Timeline**: A visually engaging vertical timeline featuring checkpoint nodes and popup detail cards to step through professional milestones.
+- **🎨 Premium UI/UX**: Designed with a modern aesthetic using glassmorphism, smooth gradients, and micro-animations for an immersive feel.
+- **📱 Fully Responsive**: Optimized for all devices, from large desktop screens to mobile phones.
+- **⚡ High Performance**: Built with Vite and React for lightning-fast loading and smooth transitions.
 
-There are several ways of editing your application.
+## 🛠️ Tech Stack
 
-**Use Lovable**
+- **Frontend Framework**: [React](https://react.dev/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Build Tool**: [Vite](https://vitejs.dev/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **UI Components**: [shadcn/ui](https://ui.shadcn.com/)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/)
+- **AI Integration**: [Google Gemini AI](https://deepmind.google/technologies/gemini/)
+- **Routing**: [React Router](https://reactrouter.com/)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/01a8dd57-2b1c-4d28-91c9-222aa00d1a96) and start prompting.
+## 🏁 Getting Started
 
-Changes made via Lovable will be committed automatically to this repo.
+Follow these steps to set up the project locally on your machine.
 
-**Use your preferred IDE**
+### Prerequisites
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Make sure you have Node.js installed on your system.
+- [Node.js](https://nodejs.org/en/download/) (v18 or higher recommended)
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Installation
 
-Follow these steps:
+1.  **Clone the repository**
+    ```bash
+    git clone https://github.com/yourusername/portfolio-website.git
+    cd portfolio-website
+    ```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+2.  **Install dependencies**
+    ```bash
+    npm install
+    # or
+    yarn install
+    # or
+    bun install
+    ```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+3.  **Start the development server**
+    ```bash
+    npm run dev
+    ```
+    The application will be available at `http://localhost:8080` (or whatever port Vite assigns).
 
-# Step 3: Install the necessary dependencies.
-npm i
+## 📜 Scripts
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+- `npm run dev`: Starts the development server.
+- `npm run build`: Builds the app for production.
+- `npm run preview`: Preview the production build locally.
+- `npm run lint`: Runs ESLint to check for code quality issues.
 
-**Edit a file directly in GitHub**
+## 🤝 Contributing
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Contributions are welcome! If you find any bugs or want to add a new feature, feel free to open an issue or submit a pull request.
 
-**Use GitHub Codespaces**
+## 📄 License
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/01a8dd57-2b1c-4d28-91c9-222aa00d1a96) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
