@@ -95,6 +95,8 @@ Rules:
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
 if (!API_KEY) {
   console.error("VITE_GEMINI_API_KEY is not set in environment variables");
+} else {
+  console.log("Gemini API Key initialized successfully");
 }
 const genAI = new GoogleGenerativeAI(API_KEY);
 
