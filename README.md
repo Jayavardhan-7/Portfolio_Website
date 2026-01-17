@@ -60,6 +60,23 @@ Make sure you have Node.js installed on your system.
 - `npm run preview`: Preview the production build locally.
 - `npm run lint`: Runs ESLint to check for code quality issues.
 
+## 🚀 Deployment
+
+The easiest way to deploy this application is using [Vercel](https://vercel.com) or [Netlify](https://www.netlify.com).
+
+### Vercel (Recommended)
+
+1.  Create a [Vercel account](https://vercel.com/signup).
+2.  Install the Vercel CLI: `npm i -g vercel`
+3.  Run `vercel` in the project root and follow the prompts.
+4.  Your app will be deployed instantly!
+
+### Netlify
+
+1.  Create a [Netlify account](https://www.netlify.com/).
+2.  Drag and drop your `dist` folder (created after running `npm run build`) into the Netlify dashboard.
+3.  Or connect your GitHub repository for continuous deployment.
+
 ## 🤝 Contributing
 
 Contributions are welcome! If you find any bugs or want to add a new feature, feel free to open an issue or submit a pull request.
