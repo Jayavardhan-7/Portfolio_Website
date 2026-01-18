@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import Groq from 'groq-sdk';
 
 interface Message {
   text: string;
@@ -10,9 +10,8 @@ interface Message {
   timestamp: string;
 }
 
-// Initialize Gemini AI
-// Initialize Gemini AI
-const SYSTEM_PROMPT = `You are an AI portfolio chatbot representing a final-year BTech CSE student
+// Portfolio Context
+const SYSTEM_PROMPT = `You are an AI portfolio chatbot representing a final-year BTech CSE student named Jayavardhan (Jay).
 specializing in Artificial Intelligence and Machine Learning (AIML).
 
 Profile:
@@ -71,10 +70,8 @@ Rules:
 - Answer ONLY using the information provided above
 - Be concise, technical, and professional
 - Do NOT assume or invent information
-- If a question is outside this scope, respond with:
-  "That information is not part of my portfolio knowledge base."
+
 - For greetings (e.g., "Hi", "Hello"), keep the response brief, welcoming, and professional. Do not list the full profile.
-Rules:
 - Answer primarily using the portfolio information provided
 - If a question goes beyond the portfolio:
   - Do not invent personal experience
@@ -91,19 +88,25 @@ Rules:
 
 - Maintain a calm, mature, and professional tone at all times
 `;
-// Use environment variable for API key
-const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
+
+// Initialize Groq AI
+const API_KEY = import.meta.env.VITE_GROQ_API_KEY || "";
+let groq: Groq | null = null;
+
 if (!API_KEY) {
-  console.error("VITE_GEMINI_API_KEY is not set in environment variables");
+  console.error("VITE_GROQ_API_KEY is not set in environment variables");
 } else {
-  console.log("Gemini API Key initialized successfully");
+  console.log("Groq API Key initialized successfully");
+  groq = new Groq({
+    apiKey: API_KEY,
+    dangerouslyAllowBrowser: true
+  });
 }
-const genAI = new GoogleGenerativeAI(API_KEY);
 
 const ChatbotWidget: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { text: 'Hello! I am Jayavardhan\'s AI assistant. How can I help you today?', sender: 'bot', timestamp: new Date().toLocaleTimeString() },
+    { text: 'Hello! I am Jay\'s AI assistant. How can I help you today?', sender: 'bot', timestamp: new Date().toLocaleTimeString() },
   ]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -124,6 +127,10 @@ const ChatbotWidget: React.FC = () => {
 
   const sendMessage = async () => {
     if (!input.trim()) return;
+    if (!groq) {
+      setError("API Key missing. Please check configuration.");
+      return;
+    }
 
     const userMessage = input.trim();
     setInput('');
@@ -140,27 +147,33 @@ const ChatbotWidget: React.FC = () => {
     setIsTyping(true);
 
     try {
-      // Get Gemini model
-      const model = genAI.getGenerativeModel({
-        model: 'gemini-2.5-flash',
-        systemInstruction: SYSTEM_PROMPT
+      // Create chat completion stream
+      const completion = await groq.chat.completions.create({
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPT },
+          ...messages.map(m => ({
+            role: m.sender === 'user' ? 'user' : 'assistant',
+            content: m.text
+          })),
+          { role: 'user', content: userMessage }
+        ] as any,
+        model: 'llama-3.3-70b-versatile',
+        stream: true,
       });
-
-      // Generate content stream
-      const result = await model.generateContentStream(userMessage);
 
       let fullText = '';
       let isFirstChunk = true;
 
-      for await (const chunk of result.stream) {
-        const chunkText = chunk.text();
+      for await (const chunk of completion) {
+        const chunkText = chunk.choices[0]?.delta?.content || '';
+        if (!chunkText) continue;
+
         fullText += chunkText;
 
         if (isFirstChunk) {
           isFirstChunk = false;
-          setIsTyping(false); // Stop typing indicator as soon as we have content
+          setIsTyping(false);
 
-          // Add initial bot response
           const botResponse: Message = {
             text: fullText,
             sender: 'bot',
@@ -168,7 +181,6 @@ const ChatbotWidget: React.FC = () => {
           };
           setMessages(prev => [...prev, botResponse]);
         } else {
-          // Update the last message (which is the bot's streaming response)
           setMessages(prev => {
             const newMessages = [...prev];
             const lastMessage = { ...newMessages[newMessages.length - 1] };
@@ -184,11 +196,17 @@ const ChatbotWidget: React.FC = () => {
         console.error('Error details:', err.message);
         console.error('Error stack:', err.stack);
       }
-      setError('Sorry, I encountered an error connecting to the AI. Please try again.');
+      let errorMessage = 'Sorry, I encountered an error connecting to the AI. Please try again.';
+
+      if (err instanceof Error && (err.message.includes('429') || err.message.includes('Too Many Requests'))) {
+        errorMessage = 'I am currently experiencing high traffic. Please wait a moment.';
+      }
+
+      setError(errorMessage);
 
       // Add error message as bot response if needed, or just keep the error state
       const errorResponse: Message = {
-        text: 'Sorry, I encountered an error connecting to the AI. Please try again.',
+        text: errorMessage,
         sender: 'bot',
         timestamp: new Date().toLocaleTimeString()
       };
@@ -227,7 +245,7 @@ const ChatbotWidget: React.FC = () => {
             className="absolute bottom-20 right-0 w-80 h-96 bg-gray-800 rounded-lg shadow-xl flex flex-col overflow-hidden"
           >
             <div className="flex justify-between items-center p-4 bg-gray-700 text-white rounded-t-lg">
-              <h3 className="text-lg font-semibold">Jayavardhan Bot</h3>
+              <h3 className="text-lg font-semibold">Jay's Assistant</h3>
               <button onClick={toggleChat} className="text-gray-400 hover:text-white focus:outline-none">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

@@ -74,7 +74,7 @@ const ContactSection = () => {
   };
 
   return (
-    <section ref={ref} className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <section id="contact" ref={ref} className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Hero background */}
       <div className="absolute inset-0 hero-background opacity-10" />
       <div className="absolute inset-0 bg-gradient-to-b from-navy-deep/80 via-transparent to-navy-deep/90" />

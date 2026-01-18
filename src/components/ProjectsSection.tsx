@@ -132,7 +132,7 @@ const ProjectsSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-200px" });
 
   return (
-    <section ref={ref} className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <section id="projects" ref={ref} className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Hero background */}
       <div className="absolute inset-0 hero-background opacity-20" />
       <div className="absolute inset-0 bg-gradient-to-b from-navy-deep/60 via-transparent to-navy-deep/80" />
